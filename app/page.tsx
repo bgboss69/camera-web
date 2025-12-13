@@ -15,10 +15,13 @@ export default function CameraPage() {
     try {
       setError(null);
       
-      // Stop existing stream if any
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
+      // Stop existing stream if any using functional state update
+      setStream(prevStream => {
+        if (prevStream) {
+          prevStream.getTracks().forEach(track => track.stop());
+        }
+        return prevStream;
+      });
 
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode },
@@ -34,7 +37,7 @@ export default function CameraPage() {
       setError('Failed to access camera. Please ensure you have granted camera permissions.');
       console.error('Camera access error:', err);
     }
-  }, [stream, facingMode]);
+  }, [facingMode]);
 
   const stopCamera = useCallback(() => {
     if (stream) {
@@ -80,14 +83,36 @@ export default function CameraPage() {
     setCapturedImage(null);
   }, []);
 
-  const switchCamera = useCallback(() => {
-    setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
-    if (stream) {
-      stopCamera();
-      // Restart camera with new facing mode
-      setTimeout(() => startCamera(), 100);
-    }
-  }, [stream, stopCamera, startCamera]);
+  const switchCamera = useCallback(async () => {
+    setFacingMode(prev => {
+      const newMode = prev === 'user' ? 'environment' : 'user';
+      // Stop current stream and restart with new mode
+      setStream(currentStream => {
+        if (currentStream) {
+          currentStream.getTracks().forEach(track => track.stop());
+          
+          // Start new stream asynchronously
+          (async () => {
+            try {
+              const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: newMode },
+                audio: false,
+              });
+              setStream(mediaStream);
+              if (videoRef.current) {
+                videoRef.current.srcObject = mediaStream;
+              }
+            } catch (err) {
+              setError('Failed to switch camera. Please ensure you have granted camera permissions.');
+              console.error('Camera switch error:', err);
+            }
+          })();
+        }
+        return null;
+      });
+      return newMode;
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
