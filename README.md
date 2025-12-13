@@ -126,6 +126,14 @@ This implementation fulfills all the requirements from the PRD and HLD:
 - Images are only stored locally on the user's device
 - HTTPS is required for camera access (enforced by browsers)
 
+## 🐛 Troubleshooting
+
+Having issues? Check out the [Troubleshooting Guide](TROUBLESHOOTING.md) for solutions to common problems including:
+- Next.js/Turbopack build errors
+- Native bindings issues on Windows
+- Camera access problems
+- Port conflicts
+
 ## 📄 License
 
 This project is open source and available under the MIT License.
