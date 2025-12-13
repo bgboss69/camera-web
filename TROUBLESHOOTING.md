@@ -11,7 +11,7 @@ Error: `turbo.createProject` is not supported by the wasm bindings.
 ```
 
 **Root Cause:**
-This error occurs when Next.js cannot load the native SWC compiler bindings and falls back to WebAssembly (WASM) bindings. The WASM bindings don't support Turbopack, which is enabled by default in Next.js 15+.
+This error occurs when Next.js cannot load the native SWC compiler bindings and falls back to WebAssembly (WASM) bindings. The WASM bindings don't support Turbopack, which is enabled by default in recent versions of Next.js (15+).
 
 **Solutions:**
 
