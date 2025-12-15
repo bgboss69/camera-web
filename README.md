@@ -90,7 +90,7 @@ No environment variables are required for this application.
 
 ## 🛠️ Technology Stack
 
-- **Framework**: Next.js 16 (App Router)
+- **Framework**: Next.js 16 (App Router) with Webpack bundler
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4
 - **Camera API**: MediaDevices API

@@ -16,15 +16,25 @@ This error occurs when Next.js cannot load the native SWC compiler bindings and 
 **Solutions:**
 
 #### Solution 1: Use Webpack Instead of Turbopack (Recommended)
-The project has been configured to use webpack by default, which is more stable:
+The project has been configured to use webpack by default for both development and production builds, which is more stable and compatible:
 
+**Development:**
 ```bash
 npm run dev
 ```
 
+**Production Build:**
+```bash
+npm run build
+```
+
 If you want to try Turbopack (after fixing native bindings):
 ```bash
+# Development with Turbopack
 npm run dev:turbo
+
+# Production build with Turbopack
+npm run build:turbo
 ```
 
 #### Solution 2: Fix Native Bindings
